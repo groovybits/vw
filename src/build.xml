@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="VW" default="release" basedir=".">
+<taskdef resource="flexTasks.tasks" classpath="/opt/FlexSDK/ant/lib/flexTasks.jar"/>
+<property name="FLEX_HOME" value="/opt/FlexSDK"/>
+<property name="APP_ROOT" value="."/>
+<property name="PROG_NAME" value="vw.swf"/>
+<property name="DEPLOY_DIR" value="../bin-release"/>
+<property name="DEBUG_DIR" value="../bin-debug"/>
+<property name="WAR_DIR" value="../webapps/"/>
+<property name="WAR_CLASS" value="./tomcat/webapps/vw/WEB-INF/src"/>
+<property name="WWW_DIR" value="/var/www/VW"/>
+    <macrodef name="compile-vw">
+        <attribute name="binary" />
+        <attribute name="commercial" />
+        <attribute name="free" />
+        <attribute name="debug" />
+        <attribute name="dir" />
+        <sequential>
+                <echo message="Building binary @{binary}" />
+                <exec executable="${FLEX_HOME}/bin/mxmlc">
+                        <arg line="-target-player=10" />
+                        <arg line="-default-size 464 372" />
+                        <arg line="-default-frame-rate=16" />
+                        <arg line="-default-background-color=0x000000" />
+                        <arg line="-metadata.creator='Chris Kennedy'" />
+                        <arg line="-metadata.title='VW'" />
+                        <arg line="-strict=true" />
+                        <arg line="-warnings" />
+                        <arg line="-use-network" />
+                        <arg line="@{debug}" />
+                        <arg line="-file-specs 'VW.as'" />
+                        <arg line="-output '@{dir}/@{binary}'"/>
+                </exec>            
+        </sequential>
+    </macrodef>
+<target name="debug">
+        <compile-vw binary="${PROG_NAME}" commercial="true" 
+                free="false" debug="-compiler.debug" dir="${DEBUG_DIR}"/>
+        <copy file="${DEBUG_DIR}/${PROG_NAME}" tofile="${WWW_DIR}/${PROG_NAME}" />
+</target>
+<target name="release">
+        <compile-vw binary="${PROG_NAME}" commercial="true" 
+                free="false" debug="-compiler.optimize" dir="${DEPLOY_DIR}"/>
+        <copy file="${DEPLOY_DIR}/${PROG_NAME}" tofile="${WWW_DIR}/${PROG_NAME}" />
+</target>
+<target name="warfile">
+        <compile-vw binary="${PROG_NAME}" commercial="true" 
+                free="false" debug="-compiler.optimize" dir="${DEPLOY_DIR}"/>
+	<javac srcdir="${WAR_CLASS}" destdir="${WAR_DIR}/classes" 
+		includes="**/*.java" debug="off" optimize="on">
+        </javac>
+	<war destfile="${WAR_DIR}/vw.war" webxml="tomcat/webapps/vw/WEB-INF/web.xml">
+		<fileset dir="tomcat/webapps/vw" includes="history/"/>
+		<fileset file="tomcat/webapps/vw/AC_OETags.js"/>
+		<fileset file="tomcat/webapps/vw/playerProductInstall.swf"/>
+		<fileset file="tomcat/webapps/vw/wall.css"/>
+		<fileset file="tomcat/webapps/vw/index.html"/>
+		<fileset file="${DEPLOY_DIR}/${PROG_NAME}"/>
+		<fileset file="rewind.png"/>
+		<fileset file="forward.png"/>
+		<fileset file="pause.png"/>
+		<fileset file="play.png"/>
+		<fileset file="stop.png"/>
+		<fileset file="fullscreen.png"/>
+		<fileset file="logoBig.gif"/>
+		<webinf dir="tomcat/webapps/vw/WEB-INF" includes="flex/"/>
+		<lib dir="tomcat/webapps/vw/WEB-INF/lib"/>
+		<classes dir="${WAR_DIR}/classes"/>
+		<classes file="tomcat/webapps/vw/WEB-INF/classes/commons-logging.properties"/>
+		<classes file="tomcat/webapps/vw/WEB-INF/classes/vw.properties"/>
+	</war>
+</target>
+</project>

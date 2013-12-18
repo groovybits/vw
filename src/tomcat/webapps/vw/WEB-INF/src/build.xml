@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<project name="vw" default="compile" basedir=".">
+	<property name="name" value="vw"/>
+	<property name="version" value="1.0"/>
+
+	<property name="src" value="."/>
+	<property name="build" value="../classes"/>
+
+	<property name="optimize" value="on"/>
+	<property name="debug" value="off"/>
+
+	<target name="compile">
+		<javac srcdir="${src}" destdir="${build}" includes="**/*.java"
+		  debug="${debug}" optimize="${optimize}">
+		</javac>
+	</target>
+</project>

@@ -1,0 +1,32 @@
+
+dy, li, p, div, textarea, .man, .navbar, .text, .title, .btext, table, tr, td
+{background-image:url("");
+background-attachment:no-fixed;
+background-repeat:repeat;
+background-position:center;
+background-color:000000;
+border-style: solid;
+border: 1px solid white;
+padding: 1px;
+border-spacing: 1px;
+font-family:arial; font-size:10pt; color:ffffff; font-weight:none;}
+
+th
+{background-image:url("");
+background-attachment:no-fixed;
+background-repeat:repeat;
+background-position:center;
+background-color:000000;
+border-style: solid;
+border: 1px solid white;
+padding: 1px;
+border-spacing: 1px;
+font-family:arial; font-size:12pt; color:ffffff; font-weight:none;}
+
+a.man{font-family:arial; font-size:10pt;
+font-weight:normal;background-color:transparent;}
+a:link{color:ffff00;font-weight:none;font-family:arial;font-size:10pt;}
+a:active{color:ffff00;font-weight:none;font-family:arial;font-size:10pt;}
+a:visited{color:ffff00;font-weight:none;font-family:arial;font-size:10pt;}
+a:hover{color:0000ff;font-weight:none;font-family:arial;font-size:10pt;}
+
